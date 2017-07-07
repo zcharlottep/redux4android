@@ -2,8 +2,11 @@ package com.example.redux4android.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+
+import java.util.concurrent.Semaphore;
 
 /**
  * Created by teresa on 2017/7/7.
@@ -11,9 +14,14 @@ import android.support.annotation.Nullable;
  */
 public class DataService extends Service{
 
+    private static final String TAG = DataService.class.getSimpleName();
+    // 带thread的handler。
+//    private ThreadHandler threadHandler;
+
     @Override
     public void onCreate() {
         super.onCreate();
+//        threadHandler = new ThreadHandler(TAG);
     }
 
     @Nullable
@@ -28,4 +36,24 @@ public class DataService extends Service{
     }
 
 
+//    class ThreadHandler extends Handler{
+//
+//        private Semaphore semaphore = new Semaphore(0);
+//        private Thread thread;
+//
+//        private String TAG;
+//
+//        public ThreadHandler(String tag){
+//            this.TAG = tag;
+//        }
+//
+//        public void start(){
+//            try {
+//                semaphore.acquire();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//    }
 }
