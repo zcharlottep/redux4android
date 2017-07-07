@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by teresa on 2017/7/3.
+ * 用于保存多个state 状态
  */
 public class StateTree<S extends State> {
 
