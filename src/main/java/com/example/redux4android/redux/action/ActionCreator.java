@@ -6,7 +6,7 @@ import com.example.redux4android.redux.App;
 
 /**
  * Created by teresa on 2017/7/3.
- * action create
+ * action创建者，创建不同类型的action
  */
 public class ActionCreator {
 
