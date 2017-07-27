@@ -4,24 +4,30 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.annotation.Nullable;
 
-import java.util.concurrent.Semaphore;
+import com.example.redux4android.thread.HandlerThread;
+
 
 /**
  * Created by teresa on 2017/7/7.
  * 后台服务 用来处理异步数据
  */
-public class DataService extends Service{
+public class DataService extends Service implements HandlerThread.OnHandleListener {
 
     private static final String TAG = DataService.class.getSimpleName();
     // 带thread的handler。
 //    private ThreadHandler threadHandler;
+    private HandlerThread handlerThread;
 
     @Override
     public void onCreate() {
         super.onCreate();
 //        threadHandler = new ThreadHandler(TAG);
+        handlerThread = new HandlerThread(TAG);
+        handlerThread.setOnHandleListener(this);
+        handlerThread.start();
     }
 
     @Nullable
@@ -32,28 +38,20 @@ public class DataService extends Service{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, flags, startId);
+        if(intent!=null){
+            String action = intent.getAction();
+            if(action!=null){
+                Message message = handlerThread.getThreadHandler().obtainMessage();
+                message.obj = intent;
+                handlerThread.sendMessage(message);
+            }
+        }
+        return START_STICKY;
     }
 
+    @Override
+    public void handleMessage(Message msg) {
 
-//    class ThreadHandler extends Handler{
-//
-//        private Semaphore semaphore = new Semaphore(0);
-//        private Thread thread;
-//
-//        private String TAG;
-//
-//        public ThreadHandler(String tag){
-//            this.TAG = tag;
-//        }
-//
-//        public void start(){
-//            try {
-//                semaphore.acquire();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//    }
+    }
+
 }

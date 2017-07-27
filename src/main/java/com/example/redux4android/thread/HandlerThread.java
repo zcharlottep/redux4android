@@ -1,8 +1,10 @@
 package com.example.redux4android.thread;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.test.suitebuilder.annotation.Suppress;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +71,32 @@ public class HandlerThread extends Thread{
         Looper.loop();
     }
 
-   class ThreadHandler extends Handler {
+    /**
+     * Sends a Message containing only the what value.
+     *
+     * @return Returns true if the message was successfully placed in to the
+     *         message queue.  Returns false on failure, usually because the
+     *         looper processing the message queue is exiting.
+     */
+    public final boolean sendEmptyMessage(int what)
+    {
+        return threadHandler.sendEmptyMessageDelayed(what, 0);
+    }
+
+
+    /**
+     * @return Returns true if the message was successfully placed in to the
+     *         message queue.  Returns false on failure, usually because the
+     *         looper processing the message queue is exiting.
+     */
+    public final boolean sendMessage(Message msg)
+    {
+        return threadHandler.sendMessageDelayed(msg, 0);
+    }
+
+
+   @SuppressLint("HandlerLeak")//标注忽略指定的警告
+   public class ThreadHandler extends Handler {
 
         @Override
         public void handleMessage(Message msg) {
